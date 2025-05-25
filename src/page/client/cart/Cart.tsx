@@ -46,16 +46,16 @@ const CartPage: React.FC = () => {
     const getCustomer = async () => {
       try {
         const getCustomer = await auth.getMe();
-        setCustomerId(getCustomer?.data?.customerId);
+        console.log("get customer: ", getCustomer.user.customerId)
+        setCustomerId(getCustomer.user.customerId);
       } catch (error) {
         navigate("/login");
         throw error;
       }
     };
     getCustomer();
-  });
+  }, []);
 
-  console.log("*************** customer id", customerId);
 
   const handleChange = ({
     fileList: newFileList,
@@ -143,7 +143,7 @@ const CartPage: React.FC = () => {
         }
         return upload;
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const onCreateOrder = async (data: any) => {
@@ -275,7 +275,7 @@ const CartPage: React.FC = () => {
                       onClick={() => decreaseQty(item.pro_id.toString())}
                       icon={<MinusOutlined />}
                       size="small"
-                      // disabled={quantities[item.pro_id.toString()] === 1}
+                    // disabled={quantities[item.pro_id.toString()] === 1}
                     />
                     <span className="px-2 text-lg">
                       {quantities[item.pro_id] || 1}

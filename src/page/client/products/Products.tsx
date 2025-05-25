@@ -8,7 +8,6 @@ import category from "../../../api/category";
 import { SearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import {
   ICategory,
-  IGetListBrand,
   IProductItem,
 } from "../../../types/admin/product/product";
 
@@ -18,9 +17,28 @@ const Products: React.FC = () => {
   const [allProducts, setAllProducts] = useState<IProductItem[]>([]); // Store all products for filtering
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const BASE_URL = "http://localhost:3003";
+
+  useEffect(() => {
+    const fetchAllProducts = async () => {
+      setLoading(true);
+      try {
+        const res = await product.getProduct(); // Assuming you have this API method
+        setProducts(res.data);
+        setAllProducts(res.data);
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+        setProducts([]);
+        setAllProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllProducts();
+  }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -28,9 +46,8 @@ const Products: React.FC = () => {
         const res = await category.getCategory();
         console.log("get category to responsive", res.data);
         setCategories(res.data);
-        if (res.data && res.data.length > 0) {
-          setSelectedCategoryId(res.data[0].cate_id);
-        }
+        // Don't automatically select the first category
+        // setSelectedCategoryId remains null to show all products initially
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -41,13 +58,29 @@ const Products: React.FC = () => {
 
   useEffect(() => {
     const fetchProductsByCategory = async () => {
-      if (!selectedCategoryId) return;
+      // If no category is selected, show all products
+      if (!selectedCategoryId) {
+        setLoading(true);
+        try {
+          const res = await product.getProduct(); // Get all products
+          setProducts(res.data);
+          setAllProducts(res.data);
+        } catch (error) {
+          console.error("Error fetching all products:", error);
+          setProducts([]);
+          setAllProducts([]);
+        } finally {
+          setLoading(false);
+        }
+        return;
+      }
 
+      // If category is selected, get products by category
       setLoading(true);
       try {
         const res = await product.getProductByCategory(selectedCategoryId);
         setProducts(res.data);
-        setAllProducts(res.data); 
+        setAllProducts(res.data);
       } catch (error) {
         console.error("Error fetching products:", error);
         setProducts([]);
@@ -60,9 +93,9 @@ const Products: React.FC = () => {
     fetchProductsByCategory();
   }, [selectedCategoryId]);
 
-  const handleCategoryChange = (value: React.SetStateAction<null>) => {
+  const handleCategoryChange = (value: number | null) => {
     setSelectedCategoryId(value);
-    setSearchText(""); 
+    setSearchText("");
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +131,7 @@ const Products: React.FC = () => {
       <div className="flex justify-between items-center">
         <div className="w-[40%] py-4 px-10">
           <Input
-            placeholder="Search brands"
+            placeholder="Search products"
             value={searchText}
             onChange={handleSearch}
             prefix={<SearchOutlined />}
@@ -110,14 +143,18 @@ const Products: React.FC = () => {
           <div className="category-selector">
             <h2>Select Category</h2>
             <Select
-              placeholder="Select a category"
+              placeholder="All Categories"
               style={{ width: 300, marginBottom: 20 }}
               value={selectedCategoryId}
               onChange={handleCategoryChange}
-              options={categories.map((cate) => ({
-                value: cate.cate_id,
-                label: cate.cate_name,
-              }))}
+              allowClear
+              options={[
+                { value: null, label: "All Categories" },
+                ...categories.map((cate) => ({
+                  value: cate.cate_id,
+                  label: cate.cate_name,
+                }))
+              ]}
             />
           </div>
         </div>
@@ -131,53 +168,53 @@ const Products: React.FC = () => {
         <div className="no-products text-center py-10">
           <p>
             No products found{" "}
-            {searchText ? "matching your search" : "in this category"}
+            {searchText ? "matching your search" : selectedCategoryId ? "in this category" : ""}
           </p>
         </div>
       )}
 
       {!loading && products.length > 0 && (
-        <div className="products-grid p-10">
-          <Row gutter={[16, 16]}>
-            {products.map((item) => (
-              <Col xs={24} sm={12} md={8} lg={6} key={item.pro_id}>
-                <Card
-                  hoverable
-                  cover={
-                    item.pro_image && (
-                      <img
-                        crossOrigin="anonymous"
-                        alt={item.pro_name}
-                        src={`${BASE_URL}/${item.pro_image}`}
-                        style={{ height: 200, objectFit: "cover" }}
-                      />
-                    )
+        <div className="grid grid-cols-6 p-10 gap-4">
+          {products.map((product) => (
+            <Card
+              hoverable
+              style={{ width: "100%" }}
+              cover={
+                <img
+                  crossOrigin="anonymous"
+                  onClick={() => navigate(`/products/${product.pro_id}`)}
+                  src={
+                    product.pro_image
+                      ? `${BASE_URL}${product.pro_image}`
+                      : "/src/assets/shoes.jpeg"
                   }
-                >
-                  <Card.Meta
-                    title={item.pro_name}
-                    description={
-                      <div>
-                        <p>
-                          <strong>Price:</strong> {item.pro_price} KIp
-                        </p>
-                        <p className="truncate">{item.pro_detail}</p>
-                      </div>
-                    }
-                  />
-                  <div className="flex justify-end">
-                    <div
-                      className="bg-gray-300 rounded flex items-center w-fit cursor-pointer p-2 mt-2 hover:bg-gray-400"
-                      onClick={() => navigate("/cart")}
-                    >
-                      <ShoppingCartOutlined />
-                      <p className="ml-1 mb-0">Add to cart</p>
-                    </div>
+                  alt={product.pro_name}
+                  className="w-full h-48 object-cover cursor-pointer"
+                />
+              }
+            >
+              <Card.Meta
+                title={product.pro_name}
+                description={
+                  <div>
+                    <p>
+                      <strong>Price:</strong> {product.pro_price} KIp
+                    </p>
+                    <p className="truncate">{product.pro_detail}</p>
                   </div>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+                }
+              />
+              <div className="flex justify-end">
+                <div
+                  className="bg-gray-300 rounded flex items-center w-fit cursor-pointer p-2 mt-2 hover:bg-gray-400"
+                  onClick={() => navigate("/cart")}
+                >
+                  <ShoppingCartOutlined />
+                  <p className="ml-1 mb-0">Add to cart</p>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       )}
     </div>
