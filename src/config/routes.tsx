@@ -16,6 +16,8 @@ import CartPage from "../page/client/cart/Cart";
 import BrandPage from "../page/admin/brand/BrandPage";
 import CreateBrand from "../page/admin/brand/component/CreateBrand";
 import Products from "../page/client/products/Products";
+import ReportProduct from "../page/admin/report/ReportProduct";
+import ReportCustomer from "../page/admin/report/ReportCustomer";
 export const ROUTES: IRoute[] = [
   {
     path: "/Dashboard",
@@ -92,6 +94,17 @@ export const ROUTES: IRoute[] = [
     title: "Admin Brand",
     component: <CreateBrand />,
   },
+  {
+    path: "/report/product",
+    title: "Report Product",
+    component: <ReportProduct />,
+  },
+  {
+    path: "/report/customer",
+    title: "Report customer",
+    component: <ReportCustomer />,
+  },
+
 ];
 
 export const AUTH_ROUTES: IRoute[] = [

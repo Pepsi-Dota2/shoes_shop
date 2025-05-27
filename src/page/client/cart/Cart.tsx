@@ -44,18 +44,26 @@ const CartPage: React.FC = () => {
 
   useEffect(() => {
     const getCustomer = async () => {
+      const token = localStorage.getItem("E_SHOSE_TOKEN");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
       try {
         const getCustomer = await auth.getMe();
-        console.log("get customer: ", getCustomer.user.customerId)
-        setCustomerId(getCustomer.user.customerId);
+        if (!getCustomer) {
+          navigate("/login");
+          return;
+        }
+        setCustomerId(getCustomer?.user?.customerId);
       } catch (error) {
         navigate("/login");
-        throw error;
       }
     };
+
     getCustomer();
   }, []);
-
 
   const handleChange = ({
     fileList: newFileList,
@@ -184,8 +192,8 @@ const CartPage: React.FC = () => {
       setQuantities({});
       setFileList([]);
       form.resetFields();
-
       return [addOrder, uploadReceipt];
+
     } catch (error) {
       console.error("Error during order creation and upload:", error);
     }
