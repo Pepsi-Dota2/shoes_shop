@@ -43,4 +43,27 @@ export const MENU = (t: any): Array<IMenu> => [
     path: "/history",
     icon: "",
   },
+  {
+    name: t("Report"),
+    path: "/report",
+    icon: "",
+    subs: [
+      {
+        name: "Report Product",
+        path: "/report/product",
+        icon: "",
+      },
+      {
+        name: "Report Category",
+        path: "/report/category",
+        icon: "",
+      },
+      {
+        name: "Report Customer",
+        path: "/report/customer",
+        icon: "",
+      },
+    ],
+  },
+
 ];

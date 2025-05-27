@@ -30,13 +30,20 @@ const Header = (props: {
         setIsModalVisible(true);
       },
     },
+    {
+      key: "2",
+      label: "View History Order",
+      onClick: () => {
+        console.log("Viewing history");
+      },
+    },
   ];
 
   return (
     <>
       <header className="sticky top-0 z-999 flex w-full drop-shadow-1 bg-white shadow-md">
         <div className="flex flex-grow items-center  px-4 py-4 shadow-2 md:px-6 2xl:px-11">
-          <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
+          {/* <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
             <button
               aria-controls="sidebar"
               onClick={(e) => {
@@ -47,12 +54,12 @@ const Header = (props: {
             >
               <img src={AppImage.iconMenu} alt="Menu" className="h-5 w-5 " />
             </button>
-          </div>
+          </div> */}
           <div />
           <div className="flex flex-grow items-center justify-start">
             {props.isClient && <h1 className="text-xl font-bold ">E-shop</h1>}
             {props.isClient && (
-              <div className="hidden lg:flex items-center">
+              <div className="flex items-center">
                 <Menu
                   mode="horizontal"
                   selectedKeys={[location.pathname]}

@@ -17,4 +17,5 @@ export default {
   updateShippingOrder: (payload: IShippingOrder, id: string) =>
     api.put(`/admin/orders/${id}/shipping`, payload),
   bestSeller: () => api.get(`/payments/top-products`),
+  viewHistoryOrderCus: (id: number) => api.get(`/customers/${id}/orders`)
 };
