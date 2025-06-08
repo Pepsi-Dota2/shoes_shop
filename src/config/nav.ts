@@ -33,14 +33,21 @@ export const MENU = (t: any): Array<IMenu> => [
       },
     ],
   },
+
   {
-    name: t("OrderStatus"),
-    path: "/order/status",
+    name: t("Customer"),
+    path: "/customer",
     icon: "",
   },
   {
-    name: t("History"),
-    path: "/history",
+    name: t("Import"),
+    path: "/import",
+    icon: "",
+  },
+
+  {
+    name: t("OrderStatus"),
+    path: "/order/status",
     icon: "",
   },
   {
@@ -54,6 +61,11 @@ export const MENU = (t: any): Array<IMenu> => [
         icon: "",
       },
       {
+        name: "Report Billing",
+        path: "/report/billing",
+        icon: "",
+      },
+      {
         name: "Report Category",
         path: "/report/category",
         icon: "",
@@ -61,6 +73,21 @@ export const MENU = (t: any): Array<IMenu> => [
       {
         name: "Report Customer",
         path: "/report/customer",
+        icon: "",
+      },
+      {
+        name: "Report Brand",
+        path: "/report/brand",
+        icon: "",
+      },
+      {
+        name: "Report Supplierr",
+        path: "/report/supplier",
+        icon: "",
+      },
+      {
+        name: "Report OrderBilling",
+        path: "/report/reportOrderbilling",
         icon: "",
       },
     ],

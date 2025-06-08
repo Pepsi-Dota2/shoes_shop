@@ -4,7 +4,7 @@ import { Input, Table, Button } from "antd";
 import { PrinterOutlined, FilePdfOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import product from "../../../api/product";
-import { getReportProductHeader } from "./column/header";
+import { getAllProductHeader } from "./column/header";
 
 const ReportProduct: React.FC = () => {
     const [getAllProduct, setGetAllProduct] = useState<IProductItem[]>([]);
@@ -54,7 +54,7 @@ const ReportProduct: React.FC = () => {
         const printWindow = window.open('', '_blank');
         if (!printWindow) return;
 
-        const columns = getReportProductHeader();
+        const columns = getAllProductHeader();
 
         const tableHTML = `
             <!DOCTYPE html>
@@ -178,7 +178,7 @@ const ReportProduct: React.FC = () => {
         window.print();
     };
 
-    const columns = getReportProductHeader();
+    const columns = getAllProductHeader();
 
     return (
         <div>

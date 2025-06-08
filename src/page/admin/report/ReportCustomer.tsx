@@ -2,8 +2,8 @@ import { Table, Button } from "antd";
 import { PrinterOutlined, FilePdfOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { IGetAllOrder } from "../../../types/admin/history/history";
-import { getHistoryHeader } from "./column/header";
 import order from "../../../api/order";
+import { getHistoryHeader } from "../history/column/column";
 
 const ReportCustomer: React.FC = () => {
     const [getAllOrder, setGetAllOrder] = useState<IGetAllOrder[]>([]);

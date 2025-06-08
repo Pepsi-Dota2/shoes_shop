@@ -2,10 +2,7 @@ import { IGetAllOrder } from "../../../../types/admin/history/history";
 import { ColumnsType } from "antd/es/table";
 import { Image } from "antd";
 
-export const getHistoryHeader = (
-  onEdit: (record: IGetAllOrder) => void,
-  onDelete: (record: IGetAllOrder) => void
-): ColumnsType<IGetAllOrder> => [
+export const getHistoryHeader = (): ColumnsType<IGetAllOrder> => [
   {
     title: "ID",
     key: "id",

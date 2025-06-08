@@ -1,0 +1,36 @@
+{
+    "data": [
+        {
+            "re_id": "Nike Air Low",
+            "re_sprice": "2990",
+            "re_status": "Returned",
+            "re_date": "2025-05-20",
+            "re_time": "14:30",
+            "re_remaek": "Box slightly damaged"
+        },
+        {
+            "re_id": "Adidas Ultraboost",
+            "re_sprice": "5200",
+            "re_status": "Returned",
+            "re_date": "2025-05-21",
+            "re_time": "11:00",
+            "re_remaek": "Size mismatch"
+        },
+        {
+            "re_id": "Puma RS-X",
+            "re_sprice": "3900",
+            "re_status": "Pending",
+            "re_date": "2025-05-22",
+            "re_time": "16:15",
+            "re_remaek": "Waiting for quality check"
+        },
+        {
+            "re_id": "New Balance 574",
+            "re_sprice": "3500",
+            "re_status": "Approved",
+            "re_date": "2025-05-23",
+            "re_time": "10:45",
+            "re_remaek": "Return accepted"
+        }
+    ]
+}

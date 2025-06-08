@@ -7,7 +7,6 @@ import ProductClientPage from "../page/client/home/Home";
 import CategoryPage from "../page/admin/proudct/Category";
 import CreateCategory from "../page/admin/proudct/component/CreateCategory";
 import CreateProduct from "../page/admin/proudct/component/CreateProduct";
-import HistoryPage from "../page/admin/history/HistoryPage";
 import Status from "../page/admin/order";
 import CreateSupplier from "../page/admin/proudct/component/CreateSupplier";
 import ProductPage from "../page/admin/proudct/product";
@@ -18,6 +17,13 @@ import CreateBrand from "../page/admin/brand/component/CreateBrand";
 import Products from "../page/client/products/Products";
 import ReportProduct from "../page/admin/report/ReportProduct";
 import ReportCustomer from "../page/admin/report/ReportCustomer";
+import ReportBrand from "../page/admin/report/ReportBrnad";
+import ReportSupplier from "../page/admin/report/ReportSuplier";
+import Customer from "../page/admin/customer/Customer";
+import ImportProduct from "../page/admin/import/Import_product";
+import AddImportProduct from "../page/admin/import/component/CreateProduct";
+import LaoDataTable from "../page/admin/report/PreOrder";
+import RePortOrderBilling from "../page/admin/report/ReportOrderBilling";
 export const ROUTES: IRoute[] = [
   {
     path: "/Dashboard",
@@ -70,11 +76,6 @@ export const ROUTES: IRoute[] = [
     component: <CreateSupplier />,
   },
   {
-    path: "/history",
-    title: "Admin supplier",
-    component: <HistoryPage />,
-  },
-  {
     path: "/order/status",
     title: "Admin supplier",
     component: <Status />,
@@ -104,6 +105,51 @@ export const ROUTES: IRoute[] = [
     title: "Report customer",
     component: <ReportCustomer />,
   },
+  {
+    path: "/report/category",
+    title: "Report customer",
+    component: <ReportCustomer />,
+  },
+  {
+    path: "/report/brand",
+    title: "Report customer",
+    component: <ReportBrand />,
+  },
+  {
+    path: "/report/supplier",
+    title: "Report customer",
+    component: <ReportSupplier />,
+  },
+  {
+    path: "/customer",
+    title: "customer",
+    component: <Customer />,
+  },
+  {
+    path: "/import",
+    title: "Import",
+    component: <ImportProduct />,
+  },
+  {
+    path: "/import/create",
+    title: "Import create",
+    component: < AddImportProduct />,
+  },
+  {
+    path: "/import/edit/:id",
+    title: "Import update",
+    component: <AddImportProduct />
+  },
+  {
+    path: "/report/billing",
+    title: "Billing",
+    component: <LaoDataTable />
+  },
+  {
+    path: "/report/reportOrderbilling",
+    title: "Billing",
+    component: <RePortOrderBilling />
+  }
 
 ];
 
@@ -142,4 +188,5 @@ export const AUTH_ROUTES: IRoute[] = [
     title: "Register",
     component: <RegisterPage />,
   },
+
 ];

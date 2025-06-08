@@ -30,7 +30,7 @@ const HistoryPage: React.FC = () => {
     fectData();
   }, []);
 
-  const columns = getHistoryHeader(handleEdit, handleDelete);
+  const columns = getHistoryHeader();
   return (
     <div>
       <Table

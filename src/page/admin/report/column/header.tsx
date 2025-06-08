@@ -1,9 +1,9 @@
 import { ColumnsType } from "antd/es/table";
-import { IProductItem } from "../../../../types/admin/product/product";
 import { Image } from "antd";
-import { IGetAllOrder } from "../../../../types/admin/history/history";
+import { ICategory, IGetListBrand, IProductItem } from "../../../../types/admin/product/product";
+import { ISupplier } from "../../../../types/admin/supplier";
 
-export const getReportProductHeader = (): ColumnsType<IProductItem> => [
+export const getAllProductHeader = (): ColumnsType<IProductItem> => [
     {
         title: "ID",
         key: "id",
@@ -12,7 +12,7 @@ export const getReportProductHeader = (): ColumnsType<IProductItem> => [
     {
         title: "Image",
         key: "pro_image",
-        render: (_: any, record: any) => {
+        render: (_: any, record: IProductItem) => {
             const BASE_URL = "http://localhost:3003";
             return (
                 <Image
@@ -31,7 +31,6 @@ export const getReportProductHeader = (): ColumnsType<IProductItem> => [
             );
         },
     },
-
     {
         title: "Name",
         dataIndex: "pro_name",
@@ -43,9 +42,69 @@ export const getReportProductHeader = (): ColumnsType<IProductItem> => [
         key: "pro_detail",
         ellipsis: true,
     },
+
+    {
+        title: "Action",
+        key: "action",
+
+    },
 ];
 
-export const getHistoryHeader = (): ColumnsType<IGetAllOrder> => [
+
+export const getCategoryHeader = (): ColumnsType<ICategory> => [
+    {
+        title: "ID",
+        key: "id",
+        render: (_: any, __: any, index: number) => index + 1,
+    },
+    {
+        title: "Name",
+        dataIndex: "cate_name",
+        key: "cate_name",
+    },
+    {
+        title: "Remark",
+        dataIndex: "cate_remark",
+        key: "cate_remark",
+    },
+
+    {
+        title: "Action",
+        key: "action",
+
+    },
+];
+
+export const getSupplierHeader = (): ColumnsType<ISupplier> => [
+    {
+        title: "ID",
+        dataIndex: "supplier_id",
+        key: "supplier_id",
+    },
+    {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+    },
+    {
+        title: "Contract",
+        dataIndex: "contact_info",
+        key: "contact_info",
+    },
+    {
+        title: "Address",
+        dataIndex: "adresses",
+        key: "adresses",
+    },
+
+    {
+        title: "Action",
+        key: "action",
+
+    },
+];
+export const getAllBrandHeader = (
+): ColumnsType<IGetListBrand> => [
         {
             title: "ID",
             key: "id",
@@ -53,15 +112,19 @@ export const getHistoryHeader = (): ColumnsType<IGetAllOrder> => [
         },
         {
             title: "Image",
-            dataIndex: "payment_image",
-            key: "payment_image",
-            render: (_: any, record: any) => {
+            key: "brand_logo",
+            render: (_: any, record: IGetListBrand) => {
                 const BASE_URL = "http://localhost:3003";
                 return (
                     <Image
+                        className="z-99999"
                         crossOrigin="anonymous"
-                        src={`${BASE_URL}${record.payment_image}`}
-                        alt="payment"
+                        src={
+                            record.brand_logo
+                                ? `${BASE_URL}${record.brand_logo}`
+                                : "/src/assets/country/english.jpg"
+                        }
+                        alt="product"
                         width={40}
                         height={40}
                         style={{ objectFit: "cover" }}
@@ -69,22 +132,37 @@ export const getHistoryHeader = (): ColumnsType<IGetAllOrder> => [
                 );
             },
         },
+
         {
-            title: "Customer name",
-            dataIndex: "customer",
-            key: "customer",
-            render: (customer: { cus_name: string }) => customer?.cus_name,
+            title: "Name",
+            dataIndex: "brand_name",
+            key: "brand_name",
         },
         {
-            title: "phone number",
-            dataIndex: "customer",
-            key: "customer",
-            render: (customer: { tel: string }) => customer?.tel,
+            title: "Description",
+            dataIndex: "brand_description",
+            key: "brand_description",
+            ellipsis: true,
         },
         {
-            title: "Address",
-            dataIndex: "customer",
-            key: "customer",
-            render: (customer: { address: string }) => customer?.address,
+            title: "Brand Website",
+            dataIndex: "brand_website",
+            key: "brand_website",
+        },
+        {
+            title: "Status",
+            dataIndex: "brand_status",
+            key: "brand_status",
+        },
+        {
+            title: "Created at",
+            dataIndex: "created_at",
+            key: "created_at",
+            render: (text: string) => new Date(text).toLocaleString(),
+        },
+        {
+            title: "Action",
+            key: "action",
+
         },
     ];
