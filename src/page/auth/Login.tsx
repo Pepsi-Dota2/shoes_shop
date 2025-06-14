@@ -1,10 +1,12 @@
 import { Button, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ILogin } from "../../types/admin/auth";
 import auth from "../../api/auth";
 import { TOKEN_KEY } from "../../lib/interceptor";
 const LoginPage = () => {
   const navigate = useNavigate();
+  const {t} = useTranslation();
   const onSubmit = async (data: ILogin) => {
     try {
       const response: any = await auth.login(data);
@@ -59,7 +61,7 @@ const LoginPage = () => {
 
           <Form.Item>
             <Button type="primary" className="w-full" htmlType="submit">
-              Login
+              {t("login")}
             </Button>
           </Form.Item>
         </Form>

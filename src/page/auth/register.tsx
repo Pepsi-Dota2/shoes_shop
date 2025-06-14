@@ -2,9 +2,11 @@ import { Button, Form, Input } from "antd";
 import { IRegister } from "../../types/admin/auth";
 import auth from "../../api/auth";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
+  const {t} = useTranslation();
   const onSubmit = async (data: IRegister) =>{
       try {
         const response: any = await auth.register(data)
