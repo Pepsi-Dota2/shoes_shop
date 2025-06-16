@@ -9,8 +9,8 @@ const ViewHistoryCus: React.FC = () => {
     const getMe = async () => {
         try {
             const getMe = await auth.getMe();
-            console.log("get customer: ", getMe.user.customerId)
-            setGetCusId(getMe.user.customerId);
+            console.log("get customer: ", getMe.data.customerId)
+            setGetCusId(getMe.data.customerId);
 
         } catch (error) {
             throw error
@@ -20,7 +20,7 @@ const ViewHistoryCus: React.FC = () => {
     const getHistoryOrderCus = async () => {
         try {
             const res = await order.viewHistoryOrderCus(getCusId ?? 0);
-            setViewOrder(res)
+            setViewOrder(res.data)
 
         } catch (error) {
             throw error

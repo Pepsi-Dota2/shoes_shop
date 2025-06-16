@@ -90,6 +90,11 @@ export const MENU = (t: any): Array<IMenu> => [
         path: "/report/reportOrderbilling",
         icon: "",
       },
+      {
+        name: "Report History Order",
+        path: "/report/order/history",
+        icon: "",
+      },
     ],
   },
 

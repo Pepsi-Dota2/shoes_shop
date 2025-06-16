@@ -56,7 +56,7 @@ const CartPage: React.FC = () => {
           navigate("/login");
           return;
         }
-        setCustomerId(getCustomer?.user?.customerId);
+        setCustomerId(getCustomer?.data?.customerId);
       } catch (error) {
         navigate("/login");
       }
@@ -176,17 +176,21 @@ const CartPage: React.FC = () => {
       };
 
       const addOrder = await order.createOrder(orderData);
-      const newOrderId = addOrder.data.orderId;
+      console.log("addorder", addOrder)
+      const newOrderId = orderId;
+      console.log("newOrderId", newOrderId)
       setOrderId(newOrderId);
-      localStorage.setItem("lastOrderId", newOrderId.toString());
+      localStorage.setItem("lastOrderId", newOrderId!.toString());
       showModal();
 
       const uploadReceipt = await onUploadImage(
         { receipt: fileList[0]?.originFileObj },
-        addOrder.data.orderId
+        (newOrderId ?? "").toString()
       );
 
-      getOrderDetail(newOrderId);
+      console.log("upload", uploadReceipt)
+
+      getOrderDetail(newOrderId!);
       localStorage.removeItem("cart");
       setCartItems([]);
       setQuantities({});
@@ -221,9 +225,6 @@ const CartPage: React.FC = () => {
       showModal();
     }
   };
-
-  console.log("order ID :", orderId);
-  console.log("order orderDetail :", orderDetail);
 
   const BASE_URL = "http://localhost:3003";
   return (

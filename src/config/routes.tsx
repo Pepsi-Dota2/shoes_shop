@@ -24,6 +24,7 @@ import ImportProduct from "../page/admin/import/Import_product";
 import AddImportProduct from "../page/admin/import/component/CreateProduct";
 import LaoDataTable from "../page/admin/report/PreOrder";
 import RePortOrderBilling from "../page/admin/report/ReportOrderBilling";
+import OrderHistory from "../page/admin/report/HistoryOrder";
 export const ROUTES: IRoute[] = [
   {
     path: "/Dashboard",
@@ -149,6 +150,11 @@ export const ROUTES: IRoute[] = [
     path: "/report/reportOrderbilling",
     title: "Billing",
     component: <RePortOrderBilling />
+  },
+  {
+    path: "/report/order/history",
+    title: "Order history",
+    component: <OrderHistory />
   }
 
 ];

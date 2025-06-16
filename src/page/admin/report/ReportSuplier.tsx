@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { t } from 'i18next';
-import { Table, Button } from 'antd'
+import { Table, Button, Card, Row, Col, Statistic } from 'antd'
 import { PrinterOutlined } from "@ant-design/icons";
 import { ISupplier } from '../../../types/admin/supplier';
 import { getSupplierHeader } from './column/header';
@@ -115,11 +115,17 @@ const ReportSupplier: React.FC = () => {
 
     const columns = getSupplierHeader();
 
-    // const handlePrint = useReactToPrint({
-    //     contentRef: printRef,
-    //     documentTitle: 'Supplier Report',
-    //     pageStyle: '@page { size: A4; margin: 0.5in; }'
-    // });
+    const handlePrint = () => {
+        if (printRef.current) {
+            const printContent = printRef.current.innerHTML;
+            const originalContent = document.body.innerHTML;
+
+            document.body.innerHTML = printContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+            window.location.reload();
+        }
+    };
 
     const fetchData = async () => {
         try {
@@ -139,6 +145,21 @@ const ReportSupplier: React.FC = () => {
         fetchData();
     }, []);
 
+    // Calculate summary statistics
+    const calculateSummary = () => {
+        const totalRecords = getAllSupplier.length;
+        const totalAmount = getAllSupplier.reduce((sum, item) => {
+            const amount = (item as any).amount || (item as any).price || (item as any).total || 0;
+            return sum + (typeof amount === 'number' ? amount : parseFloat(amount) || 0);
+        }, 0);
+
+        const totalQuantity = getAllSupplier.length; // Or use actual quantity field if available
+
+        return { totalRecords, totalAmount, totalQuantity };
+    };
+
+    const { totalRecords, totalAmount, totalQuantity } = calculateSummary();
+
     if (isLoading) {
         return (
             <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
@@ -151,38 +172,116 @@ const ReportSupplier: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className="p-6 bg-gray-50 min-h-screen">
+            {/* Header */}
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-semibold text-gray-800">Supplier Report</h1>
+                <h1 className="text-3xl font-bold text-gray-800">Supplier Report</h1>
                 <Button
                     type="primary"
                     icon={<PrinterOutlined />}
-                    onClick={() => { }}
+                    onClick={handlePrint}
                     disabled={isLoading || getAllSupplier.length === 0}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600"
+                    size="large"
                 >
                     Print Report
                 </Button>
             </div>
 
-            <Table
-                loading={isLoading}
-                className="bg-white rounded-lg"
-                title={() => {
-                    return (
-                        <div className="flex justify-between">
-                            <div className="font-bold text-xl">
-                                {t("supplier.title_supplier")}
-                            </div>
-                        </div>
-                    );
-                }}
-                columns={columns}
-                dataSource={getAllSupplier}
-                pagination={{ pageSize: 10 }}
-            />
+            {/* Order Status Table */}
+            <Card className="mb-6">
+                <div className="mb-4">
+                    <h2 className="text-xl font-semibold text-gray-700">Order Status</h2>
+                </div>
 
+                <Table
+                    loading={isLoading}
+                    className="rounded-lg overflow-hidden"
+                    columns={columns}
+                    dataSource={getAllSupplier}
+                    pagination={{
+                        pageSize: 10,
+                        showSizeChanger: true,
+                        showQuickJumper: true,
+                        showTotal: (total, range) =>
+                            `${range[0]}-${range[1]} of ${total} items`,
+                    }}
+                    size="middle"
+                />
+            </Card>
 
+            {/* Summary Report */}
+            <Card>
+                <div className="mb-6">
+                    <h2 className="text-xl font-semibold text-gray-700">
+                        รายงานสรุปยอด (Summary Report)
+                    </h2>
+                </div>
+
+                <Row gutter={[24, 24]}>
+                    <Col xs={24} sm={8}>
+                        <Card className="text-center bg-blue-50 border-blue-200">
+                            <Statistic
+                                title={
+                                    <div className="text-gray-600 font-medium">
+                                        จำนวนข้อมูลทั้งหมด
+                                    </div>
+                                }
+                                value={totalRecords}
+                                suffix="Kip"
+                                valueStyle={{
+                                    color: '#1890ff',
+                                    fontSize: '2rem',
+                                    fontWeight: 'bold'
+                                }}
+                            />
+                            <div className="text-sm text-gray-500 mt-2">Total Records</div>
+                        </Card>
+                    </Col>
+
+                    <Col xs={24} sm={8}>
+                        <Card className="text-center bg-green-50 border-green-200">
+                            <Statistic
+                                title={
+                                    <div className="text-gray-600 font-medium">
+                                        จำนวนสินค้าทั้งหมด
+                                    </div>
+                                }
+                                value={totalQuantity}
+                                valueStyle={{
+                                    color: '#52c41a',
+                                    fontSize: '2rem',
+                                    fontWeight: 'bold'
+                                }}
+                            />
+                            <div className="text-sm text-gray-500 mt-2">Total Quantity</div>
+                        </Card>
+                    </Col>
+
+                    <Col xs={24} sm={8}>
+                        <Card className="text-center bg-purple-50 border-purple-200">
+                            <Statistic
+                                title={
+                                    <div className="text-gray-600 font-medium">
+                                        ยอดรวมทั้งหมด
+                                    </div>
+                                }
+                                value={totalAmount}
+                                suffix="กีบ"
+                                valueStyle={{
+                                    color: '#722ed1',
+                                    fontSize: '2rem',
+                                    fontWeight: 'bold'
+                                }}
+                                formatter={(value) => `${Number(value).toLocaleString()}`}
+                            />
+                            <div className="text-sm text-gray-500 mt-2">Total Amount</div>
+                        </Card>
+                    </Col>
+                </Row>
+            </Card>
+
+            {/* Hidden Printable Component */}
             <div style={{ display: 'none' }}>
                 <PrintableTable
                     ref={printRef}
