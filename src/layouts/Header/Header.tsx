@@ -4,7 +4,6 @@ import { AppImage } from "../../config/constant";
 import { Avatar, Button, Dropdown, Menu, MenuProps, Modal, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
-import order from "../../api/order";
 import { useEffect, useState } from "react";
 import ChangePassword from "../../page/auth/ChangePassword";
 type MenuItem = {
