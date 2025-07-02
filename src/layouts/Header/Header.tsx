@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import ChangePassword from "../../page/auth/ChangePassword";
+import ViewHistoryCus from "../../page/client/VIewHistory";
 type MenuItem = {
   key: string;
   label: string;
@@ -20,6 +21,7 @@ const Header = (props: {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
 
   const items: MenuProps["items"] = [
     {
@@ -33,7 +35,7 @@ const Header = (props: {
       key: "2",
       label: "View History Order",
       onClick: () => {
-        console.log("Viewing history");
+        setIsHistoryVisible(true); // ✅ Show modal
       },
     },
   ];
@@ -128,6 +130,15 @@ const Header = (props: {
         title="Change Password"
       >
         <ChangePassword onSuccess={() => setIsModalVisible(false)} />
+      </Modal>
+      <Modal
+        open={isHistoryVisible}
+        onCancel={() => setIsHistoryVisible(false)}
+        footer={null}
+        title="Order History"
+        width={800} // wider for better viewing
+      >
+        <ViewHistoryCus />
       </Modal>
     </>
   );

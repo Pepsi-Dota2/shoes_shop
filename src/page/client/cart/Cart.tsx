@@ -29,6 +29,7 @@ const CartPage: React.FC = () => {
   const navigate = useNavigate();
   const [orderId, setOrderId] = useState<number>();
   const [orderDetail, setOrderDetail] = useState<any>("");
+  console.log("orderId", orderId)
 
   const showModal = () => {
     setIsModalOpen(true);
