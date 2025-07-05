@@ -22,6 +22,7 @@ export interface IProductItem {
   gen_id: number;
   pro_price: number;
   category: ICategory;
+  brand_id?: number;
 }
 
 export interface ICreateProduct {
@@ -31,8 +32,8 @@ export interface ICreateProduct {
   pro_qty: string;
   image: string;
   cate_id: ICategoryItem;
-  brand_id:IGetListBrand;
-  pro_price:number;
+  brand_id: IGetListBrand;
+  pro_price: number;
 }
 
 export interface IGetListBrand {
@@ -53,3 +54,4 @@ export interface ICreateBrand {
   brand_website: string;
   brand_status: string;
 }
+

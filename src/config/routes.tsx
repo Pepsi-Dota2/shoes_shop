@@ -25,6 +25,10 @@ import AddImportProduct from "../page/admin/import/component/CreateProduct";
 import LaoDataTable from "../page/admin/report/PreOrder";
 import RePortOrderBilling from "../page/admin/report/ReportOrderBilling";
 import OrderHistory from "../page/admin/report/HistoryOrder";
+import { Receipt } from "lucide-react";
+import ReceiveDetail from "../page/admin/receive_detail/receive_detail";
+import Receive from "../page/admin/receive/receive";
+import CrateReceiveDetail from "../page/admin/receive_detail/component/CreateReceiveDetail";
 export const ROUTES: IRoute[] = [
   {
     path: "/Dashboard",
@@ -100,6 +104,21 @@ export const ROUTES: IRoute[] = [
     path: "/report/product",
     title: "Report Product",
     component: <ReportProduct />,
+  },
+  {
+    path: "/product/receive",
+    title: "Admin Brand",
+    component: <Receive />,
+  },
+  {
+    path: "/product/receive/detail",
+    title: "Admin Receive",
+    component: <ReceiveDetail />,
+  },
+  {
+    path: "/product/create/detail",
+    title: "Admin Receive",
+    component: <CrateReceiveDetail />,
   },
   {
     path: "/report/customer",
